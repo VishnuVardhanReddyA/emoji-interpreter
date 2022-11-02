@@ -1,0 +1,66 @@
+import { useCallback, useState } from "react";
+import "./styles.css";
+
+var emojiDict = {
+  "🤫": "don't say anything be quiet",
+  "❤️": "Love",
+  "😪": "Sleepy Face",
+  "😟": "Worried Face",
+  "😨": "Fearful Face",
+  "😰": "Anxious Face with Sweat",
+  "🤯": "Exploding Head",
+  "🤞": "Wish you luck",
+  "🤣": "Rolling on the Floor Laughing",
+  "😋": "Face Savoring Food"
+};
+const emojis = Object.keys(emojiDict);
+console.log(emojis)
+export default function App() {
+  var [meaning, setEmojiMeaning] = useState("Translation will appear here..");
+  var [emoji, setEmoji] = useState("");
+  var [placeHolder,setplaceHolder]=useState("Search for Emoji here...")
+
+  function emojiChangeHandler(event) {
+    var inp = event.target.value;
+    if (inp in emojiDict) {
+      setEmoji(event.target.value);
+      setEmojiMeaning(emojiDict[event.target.value]);
+    } else {
+      setEmojiMeaning("Hmm... That emoji is not there in Database");
+      setEmoji("");
+      if (inp === "") {
+        setEmojiMeaning("Translation will appear here..");
+      }
+    }
+  }
+  function emojiClickHandler(emoji) {
+    setEmoji(emoji);
+    setEmojiMeaning(emojiDict[emoji]);
+    setplaceHolder(emoji)
+  }
+  return (
+    <div className="App">
+      <h1 style={{ fontFamily: "cursive" }}>Select one Emoji..!</h1>
+      <input
+        onChange={emojiChangeHandler}
+        placeholder={placeHolder}
+      />
+
+      <h2>
+        <small style={{ color: "red" }}>
+          {emoji} <span style={{ fontFamily: "comic sans Ms" }}>{meaning}</span>
+        </small>
+      </h2>
+
+      {emojis.map((emoji) => (
+        <span
+          style={{ fontSize: "30px", padding: "5px", cursor: "pointer" }}
+          onClick={() => emojiClickHandler(emoji)}
+        >
+          {" "}
+          {emoji}{" "}
+        </span>
+      ))}
+    </div>
+  );
+}
